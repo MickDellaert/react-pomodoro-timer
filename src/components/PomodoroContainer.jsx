@@ -1,15 +1,12 @@
-import { useEffect, useState, useRef } from "react";
-import Button from "./Button";
+import { useEffect, useState } from "react";
 import Timer from "./Timer";
+import TopButtonsContainer from "./TopButtonsContainer";
+import BottomButtonsContainer from "./BottomButtonsContainer";
 
 const PomodoroContainer = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [running, setRunning] = useState(false);
-
-  const countDown = () => {
-    setRunning(true);
-  };
 
   useEffect(() => {
     if (running) {
@@ -34,42 +31,12 @@ const PomodoroContainer = () => {
     }
   });
 
-  const setFocus = () => {
-    setRunning(false);
-    setMinutes(1);
-    setSeconds(10);
-  };
-
-  const setShortBreak = () => {
-    setRunning(false);
-    setMinutes(5);
-    setSeconds(0);
-  };
-
-  const setLongBreak = () => {
-    setRunning(false);
-    setMinutes(20);
-    setSeconds(0);
-  };
-
   useEffect(() => {
     if (!running) {
       localStorage.setItem("minutes", JSON.stringify(minutes));
       localStorage.setItem("seconds", JSON.stringify(seconds));
     }
   });
-
-  const reset = () => {
-    setRunning(false);
-    const savedMinutes = localStorage.getItem("minutes");
-    const getSavedMinutes = JSON.parse(savedMinutes);
-
-    const savedSeconds = localStorage.getItem("seconds");
-    const getSavedSeconds = JSON.parse(savedSeconds);
-
-    setMinutes(getSavedMinutes);
-    setSeconds(getSavedSeconds);
-  };
 
   const savedMinutes = localStorage.getItem("minutes");
   const getSavedMinutes = JSON.parse(savedMinutes);
@@ -79,30 +46,26 @@ const PomodoroContainer = () => {
 
   const totalTime = getSavedMinutes * 60 + getSavedSeconds;
   const remainingTime = totalTime - (minutes * 60 + seconds);
-  const percentage = Math.round(remainingTime / totalTime * 100);
+  const percentage = Math.round((remainingTime / totalTime) * 100);
   console.log(totalTime);
   console.log(remainingTime);
   console.log(percentage);
 
-
-
-  const stop = () => {
-    setRunning(false);
-  };
-
   return (
     <>
-      <Button handleClick={setFocus} name="Focus" />
-      <Button
-        seconds={seconds}
-        handleClick={setShortBreak}
-        name="Short Break"
+      <TopButtonsContainer
+        setRunning={setRunning}
+        setMinutes={setMinutes}
+        setSeconds={setSeconds}
       />
-      <Button handleClick={setLongBreak} name="Long Break" />
       <Timer minutes={minutes} seconds={seconds} />
-      <Button handleClick={countDown} name="Start" />
-      <Button handleClick={stop} name="Stop" />
-      <Button handleClick={reset} name="Reset" />
+      <BottomButtonsContainer
+        setRunning={setRunning}
+        setMinutes={setMinutes}
+        setSeconds={setSeconds}
+        getSavedMinutes={getSavedMinutes}
+        getSavedSeconds={getSavedSeconds}
+      />
     </>
   );
 };
