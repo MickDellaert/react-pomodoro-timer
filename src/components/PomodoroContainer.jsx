@@ -30,7 +30,6 @@ const PomodoroContainer = () => {
           }
         }
       }, 1000);
-      console.log("useeffect");
       return () => clearInterval(intervalId);
     }
   });
@@ -39,34 +38,26 @@ const PomodoroContainer = () => {
     setRunning(false);
     setMinutes(1);
     setSeconds(10);
-
-    let localMinutes = 1;
-    let localSeconds = 10;
-    localStorage.setItem("minutes", JSON.stringify(localMinutes));
-    localStorage.setItem("seconds", JSON.stringify(localSeconds));
   };
 
   const setShortBreak = () => {
     setRunning(false);
     setMinutes(5);
     setSeconds(0);
-
-    let localMinutes = 5;
-    let localSeconds = 0;
-    localStorage.setItem("minutes", JSON.stringify(localMinutes));
-    localStorage.setItem("seconds", JSON.stringify(localSeconds));
   };
 
   const setLongBreak = () => {
     setRunning(false);
     setMinutes(20);
     setSeconds(0);
-
-    let localMinutes = 20;
-    let localSeconds = 0;
-    localStorage.setItem("minutes", JSON.stringify(localMinutes));
-    localStorage.setItem("seconds", JSON.stringify(localSeconds));
   };
+
+  useEffect(() => {
+    if (!running) {
+      localStorage.setItem("minutes", JSON.stringify(minutes));
+      localStorage.setItem("seconds", JSON.stringify(seconds));
+    }
+  });
 
   const reset = () => {
     setRunning(false);
@@ -76,15 +67,24 @@ const PomodoroContainer = () => {
     const savedSeconds = localStorage.getItem("seconds");
     const getSavedSeconds = JSON.parse(savedSeconds);
 
-    console.log("minutes: " + getSavedMinutes + " seconds: " + getSavedSeconds);
-
     setMinutes(getSavedMinutes);
     setSeconds(getSavedSeconds);
-
-    console.log(typeof getSavedMinutes);
-    console.log(getSavedMinutes);
-    console.log(minutes);
   };
+
+  const savedMinutes = localStorage.getItem("minutes");
+  const getSavedMinutes = JSON.parse(savedMinutes);
+
+  const savedSeconds = localStorage.getItem("seconds");
+  const getSavedSeconds = JSON.parse(savedSeconds);
+
+  const totalTime = getSavedMinutes * 60 + getSavedSeconds;
+  const remainingTime = totalTime - (minutes * 60 + seconds);
+  const percentage = Math.round(remainingTime / totalTime * 100);
+  console.log(totalTime);
+  console.log(remainingTime);
+  console.log(percentage);
+
+
 
   const stop = () => {
     setRunning(false);
