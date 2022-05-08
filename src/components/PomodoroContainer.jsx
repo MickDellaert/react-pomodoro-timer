@@ -9,16 +9,12 @@ const PomodoroContainer = () => {
 
   const countDown = () => {
     setRunning(true);
-
-    // setSeconds(seconds - 1);
-
-    console.log(seconds);
   };
 
   useEffect(() => {
     if (running) {
       const intervalId = setInterval(() => {
-        
+
         if (seconds === 0 && minutes > 0) {
           setSeconds(59);
         }
