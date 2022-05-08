@@ -1,7 +1,7 @@
-const Timer = ({ seconds }) => {
+const Timer = ({ minutes, seconds }) => {
   return (
     <>
-      <p>{seconds}</p>
+      <p>{minutes} : {seconds}</p>
     </>
   );
 };
