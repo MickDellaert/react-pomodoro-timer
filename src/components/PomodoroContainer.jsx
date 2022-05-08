@@ -14,7 +14,6 @@ const PomodoroContainer = () => {
         if (seconds === 0 && minutes > 0) {
           setSeconds(59);
         }
-
         if (seconds > 0) {
           setSeconds(seconds - 1);
         }

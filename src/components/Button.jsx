@@ -1,5 +1,5 @@
-const Button = ({handleClick, name, seconds}) => {
-  return ( <button value={seconds} onClick={handleClick}>{name}</button> );
-}
- 
+const Button = ({ handleClick, name }) => {
+  return <button onClick={handleClick}>{name}</button>;
+};
+
 export default Button;

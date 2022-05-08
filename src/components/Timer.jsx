@@ -1,7 +1,10 @@
 const Timer = ({ minutes, seconds }) => {
   return (
     <>
-      <p>{minutes} : {seconds}</p>
+      <p>
+        {minutes < 10 ? `0${minutes}` : minutes}:
+        {seconds < 10 ? `0${seconds}` : seconds}
+      </p>
     </>
   );
 };
