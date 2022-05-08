@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Button from "./Button";
 import Timer from "./Timer";
 
@@ -39,31 +39,33 @@ const PomodoroContainer = () => {
     setRunning(false);
     setMinutes(1);
     setSeconds(10);
+
+    let localMinutes = 1;
+    let localSeconds = 10;
+    localStorage.setItem("minutes", JSON.stringify(localMinutes));
+    localStorage.setItem("seconds", JSON.stringify(localSeconds));
   };
 
-    const setShortBreak = () => {
+  const setShortBreak = () => {
     setRunning(false);
     setMinutes(5);
     setSeconds(0);
+
+    let localMinutes = 5;
+    let localSeconds = 0;
+    localStorage.setItem("minutes", JSON.stringify(localMinutes));
+    localStorage.setItem("seconds", JSON.stringify(localSeconds));
   };
 
   const setLongBreak = () => {
     setRunning(false);
     setMinutes(20);
     setSeconds(0);
-  };
 
-
-  useEffect(() => {
-    // storing input name
-    localStorage.setItem("minutes", JSON.stringify(minutes));
-    localStorage.setItem("seconds", JSON.stringify(seconds));
-
-  }, [minutes, seconds]);
-
-
-  const stop = () => {
-    setRunning(false);
+    let localMinutes = 20;
+    let localSeconds = 0;
+    localStorage.setItem("minutes", JSON.stringify(localMinutes));
+    localStorage.setItem("seconds", JSON.stringify(localSeconds));
   };
 
   const reset = () => {
@@ -75,6 +77,17 @@ const PomodoroContainer = () => {
     const getSavedSeconds = JSON.parse(savedSeconds);
 
     console.log("minutes: " + getSavedMinutes + " seconds: " + getSavedSeconds);
+
+    setMinutes(getSavedMinutes);
+    setSeconds(getSavedSeconds);
+
+    console.log(typeof getSavedMinutes);
+    console.log(getSavedMinutes);
+    console.log(minutes);
+  };
+
+  const stop = () => {
+    setRunning(false);
   };
 
   return (
