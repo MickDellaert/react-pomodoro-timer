@@ -14,7 +14,6 @@ const PomodoroContainer = () => {
   useEffect(() => {
     if (running) {
       const intervalId = setInterval(() => {
-
         if (seconds === 0 && minutes > 0) {
           setSeconds(59);
         }
@@ -31,6 +30,7 @@ const PomodoroContainer = () => {
           }
         }
       }, 1000);
+      console.log("useeffect");
       return () => clearInterval(intervalId);
     }
   });
@@ -41,7 +41,7 @@ const PomodoroContainer = () => {
     setSeconds(10);
   };
 
-  const setShortBreak = () => {
+    const setShortBreak = () => {
     setRunning(false);
     setMinutes(5);
     setSeconds(0);
@@ -53,8 +53,28 @@ const PomodoroContainer = () => {
     setSeconds(0);
   };
 
+
+  useEffect(() => {
+    // storing input name
+    localStorage.setItem("minutes", JSON.stringify(minutes));
+    localStorage.setItem("seconds", JSON.stringify(seconds));
+
+  }, [minutes, seconds]);
+
+
   const stop = () => {
     setRunning(false);
+  };
+
+  const reset = () => {
+    setRunning(false);
+    const savedMinutes = localStorage.getItem("minutes");
+    const getSavedMinutes = JSON.parse(savedMinutes);
+
+    const savedSeconds = localStorage.getItem("seconds");
+    const getSavedSeconds = JSON.parse(savedSeconds);
+
+    console.log("minutes: " + getSavedMinutes + " seconds: " + getSavedSeconds);
   };
 
   return (
@@ -69,6 +89,7 @@ const PomodoroContainer = () => {
       <Timer minutes={minutes} seconds={seconds} />
       <Button handleClick={countDown} name="Start" />
       <Button handleClick={stop} name="Stop" />
+      <Button handleClick={reset} name="Reset" />
     </>
   );
 };
