@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import Timer from "./Timer";
 import TopButtonsContainer from "./TopButtonsContainer";
+import Timer from "./Timer";
 import BottomButtonsContainer from "./BottomButtonsContainer";
 
 const PomodoroContainer = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [running, setRunning] = useState(false);
+  const [stopped, setStopped] = useState(false)
 
   useEffect(() => {
-    if (running) {
+    if (running && !stopped) {
       const intervalId = setInterval(() => {
         if (seconds === 0 && minutes > 0) {
           setSeconds(59);
@@ -59,6 +60,8 @@ const PomodoroContainer = () => {
       />
       <Timer minutes={minutes} seconds={seconds} />
       <BottomButtonsContainer
+        running={running}
+        setStopped={setStopped}
         setRunning={setRunning}
         setMinutes={setMinutes}
         setSeconds={setSeconds}
